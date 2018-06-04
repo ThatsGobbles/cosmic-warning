@@ -1,2 +1,4 @@
+mod defs;
+
 fn main() {
 }

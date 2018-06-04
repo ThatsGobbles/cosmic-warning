@@ -1,4 +1,4 @@
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 pub enum Zone {
     Red,
     White,
@@ -14,7 +14,7 @@ impl Zone {
         }
     }
 
-    pub fn to_left(self) -> Self {
+    pub fn left(self) -> Self {
         match self {
             Zone::Red => Zone::Red,
             Zone::White => Zone::Red,
@@ -22,7 +22,7 @@ impl Zone {
         }
     }
 
-    pub fn to_right(self) -> Self {
+    pub fn right(self) -> Self {
         match self {
             Zone::Red => Zone::White,
             Zone::White => Zone::Blue,
@@ -31,7 +31,7 @@ impl Zone {
     }
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 pub enum Deck {
     Upper,
     Lower,
@@ -44,4 +44,54 @@ impl Deck {
             Deck::Lower => Deck::Upper,
         }
     }
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub struct Room {
+    zone: Zone,
+    deck: Deck,
+}
+
+impl Room {
+    pub fn left(self) -> Self {
+        Room {
+            zone: self.zone.left(),
+            deck: self.deck,
+        }
+    }
+
+    pub fn right(self) -> Self {
+        Room {
+            zone: self.zone.right(),
+            deck: self.deck,
+        }
+    }
+
+    pub fn h_flip(self) -> Self {
+        Room {
+            zone: self.zone.flip(),
+            deck: self.deck,
+        }
+    }
+
+    pub fn v_flip(self) -> Self {
+        Room {
+            zone: self.zone,
+            deck: self.deck.flip(),
+        }
+    }
+
+    pub fn x_flip(self) -> Self {
+        Room {
+            zone: self.zone.flip(),
+            deck: self.deck.flip(),
+        }
+    }
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+pub enum Subsystem {
+    A,
+    B,
+    C,
 }
